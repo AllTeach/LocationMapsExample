@@ -74,6 +74,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         // map is ready -> Add a marker att current location
         gMap = googleMap;
+        gMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(@NonNull LatLng latLng) {
+                gMap.addMarker(new MarkerOptions().position(latLng).title("Marker"));
+            }
+        });
      //   gMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng)).title("Marker"));
     }
 
