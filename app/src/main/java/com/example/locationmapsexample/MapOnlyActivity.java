@@ -22,11 +22,14 @@ public class MapOnlyActivity extends AppCompatActivity implements OnMapReadyCall
     private GoogleMap gMap = null;
     private double lng = 0, lat = 0;
 
+    private int mapTypeCounter = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_only);
 
+        // As an example NYC LatLon
         lat =40.730610;
         lng=-73.935242;
         initViews();
@@ -41,15 +44,18 @@ public class MapOnlyActivity extends AppCompatActivity implements OnMapReadyCall
     private void setUpMap() {
         // Get a handle  and register the callback.
         // if API_KEY is not present this method will fail
+
         mMapView.onCreate(null);
         mMapView.getMapAsync(this);
+
 
 
     }
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
-        // map is ready 
+        // map is ready
+
         gMap = googleMap;
         //gMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng)).icon(BitmapDescriptorFactory.fromResource(R.drawable.walk1)));
 
@@ -74,6 +80,13 @@ public class MapOnlyActivity extends AppCompatActivity implements OnMapReadyCall
         gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng),10.0f));
 
 
+    }
+
+
+    public void changeMapType(View view)
+    {
+        gMap.setMapType(mapTypeCounter%4 + 1);
+        mapTypeCounter++;
     }
 
     // MapView should be handled in all activity lifecycle methods
@@ -113,4 +126,5 @@ public class MapOnlyActivity extends AppCompatActivity implements OnMapReadyCall
         mMapView.onResume();
 
     }
+
 }
