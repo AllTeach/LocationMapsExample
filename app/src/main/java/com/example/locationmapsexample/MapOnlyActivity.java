@@ -49,6 +49,7 @@ public class MapOnlyActivity extends AppCompatActivity implements OnMapReadyCall
     public void onMapReady(@NonNull GoogleMap googleMap) {
         // map is ready 
         gMap = googleMap;
+        int num=1;
         gMap.addMarker(new MarkerOptions().position(new LatLng(40.730610, -73.935242)).icon(BitmapDescriptorFactory.fromResource(R.drawable.walk1)));
 
     }
