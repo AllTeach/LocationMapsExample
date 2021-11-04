@@ -199,8 +199,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         super.onResume();
       //  checkPermissions();
       startLocationUpdates();
-
-        mMapView.onResume();
+      mMapView.onResume();
 
     }
 
