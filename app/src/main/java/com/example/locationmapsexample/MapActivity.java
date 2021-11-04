@@ -41,6 +41,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         
         initViews();
         setUpLocation();
+
         createLocationRequest();
 
         setUpMap();
@@ -197,7 +198,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     protected void onResume() {
         super.onResume();
       //  checkPermissions();
-        startLocationUpdates();
+      startLocationUpdates();
 
         mMapView.onResume();
 

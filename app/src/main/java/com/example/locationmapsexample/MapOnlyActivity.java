@@ -49,7 +49,6 @@ public class MapOnlyActivity extends AppCompatActivity implements OnMapReadyCall
     public void onMapReady(@NonNull GoogleMap googleMap) {
         // map is ready 
         gMap = googleMap;
-        int num=1;
         gMap.addMarker(new MarkerOptions().position(new LatLng(40.730610, -73.935242)).icon(BitmapDescriptorFactory.fromResource(R.drawable.walk1)));
 
     }
@@ -64,9 +63,48 @@ public class MapOnlyActivity extends AppCompatActivity implements OnMapReadyCall
 
             return;
         }
-        gMap.setMyLocationEnabled(true);
+      //  gMap.setMyLocationEnabled(true);
+        // set Map in the heart of the big apple NYC :-)
         gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(40.730610, -73.935242),10.0f));
 
+
+    }
+
+    // MapView should be handled in all activity lifecycle methods
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mMapView.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mMapView.onStop();
+    }
+    @Override
+    protected void onDestroy() {
+        mMapView.onDestroy();
+        super.onDestroy();
+    }
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mMapView.onLowMemory();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mMapView.onPause();
+
+    }
+
+    protected void onResume() {
+        super.onResume();
+        //  checkPermissions();
+
+        mMapView.onResume();
 
     }
 }
