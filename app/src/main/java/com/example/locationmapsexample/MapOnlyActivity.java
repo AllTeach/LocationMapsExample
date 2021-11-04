@@ -27,6 +27,8 @@ public class MapOnlyActivity extends AppCompatActivity implements OnMapReadyCall
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_only);
 
+        lat =40.730610;
+        lng=-73.935242;
         initViews();
         setUpMap();
 
@@ -49,11 +51,14 @@ public class MapOnlyActivity extends AppCompatActivity implements OnMapReadyCall
     public void onMapReady(@NonNull GoogleMap googleMap) {
         // map is ready 
         gMap = googleMap;
-        gMap.addMarker(new MarkerOptions().position(new LatLng(40.730610, -73.935242)).icon(BitmapDescriptorFactory.fromResource(R.drawable.walk1)));
+        //gMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng)).icon(BitmapDescriptorFactory.fromResource(R.drawable.walk1)));
 
     }
 
     public void setMarker(View view) {
+        // default marker
+        gMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng)));
+
 
     }
 
@@ -65,7 +70,7 @@ public class MapOnlyActivity extends AppCompatActivity implements OnMapReadyCall
         }
       //  gMap.setMyLocationEnabled(true);
         // set Map in the heart of the big apple NYC :-)
-        gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(40.730610, -73.935242),10.0f));
+        gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng),10.0f));
 
 
     }

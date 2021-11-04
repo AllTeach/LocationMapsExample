@@ -6,9 +6,12 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Looper;
+import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -23,11 +26,15 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.IOException;
+import java.util.List;
+
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
     
     private LocationCallback locationCallback;
     private FusedLocationProviderClient fusedLocationClient;
     private TextView tvLocation;
+    private TextView tvAddress;
     private LocationRequest locationRequest;
     private MapView mMapView;
     private GoogleMap gMap = null;
@@ -48,7 +55,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     private void initViews() {
-        tvLocation = findViewById(R.id.btnSetMarker);
+        tvLocation = findViewById(R.id.tvLocation);
+        tvAddress = findViewById(R.id.tvAddress);
         mMapView = findViewById(R.id.map);
     }
 
@@ -96,21 +104,15 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                         // this is to move location according to current position
                         gMap.setMyLocationEnabled(true);
                         //moves map with center of current location
-                        //gMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(lat, lng)));
-                        //gMap.animateCamera();
-
-
-
-
-                            gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()),15.0f));
+                        gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()),15.0f));
 
                         gMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng)).icon(BitmapDescriptorFactory.fromResource(R.drawable.walk1)));
                     }
-                        // GEOFENCING
 
 
 /*
-                        Geocoder geocoder = new Geocoder(ActivityLocationUpdate.this);
+
+                        Geocoder geocoder = new Geocoder(MapActivity.this);
                         List<Address> addresses = null;
                         try {
                             addresses = geocoder.getFromLocation(lat,lng,5);
@@ -130,7 +132,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 }
             }
         }
-        */
+                        */
+
                     }
                     tvLocation.setText(str);
 
@@ -161,6 +164,36 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             return;
         }
         fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
+
+    }
+
+    public void startGeoCoding(View view)
+    {
+        Geocoder geocoder = new Geocoder(MapActivity.this);
+        List<Address> addresses = null;
+        String str="";
+        try {
+            addresses = geocoder.getFromLocation(lat,lng,5);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if(addresses !=null)
+        {
+            for (Address addr: addresses )
+            {
+                for(int i=0;i<= addr.getMaxAddressLineIndex();i++)
+                {
+                    str += "\n" + addr.getAddressLine(i);
+
+                }
+
+
+            }
+        }
+        tvAddress.setText(str);
+
+
 
     }
 
