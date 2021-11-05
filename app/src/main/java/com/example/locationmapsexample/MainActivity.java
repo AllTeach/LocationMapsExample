@@ -28,7 +28,8 @@ public class MainActivity extends AppCompatActivity {
     private FusedLocationProviderClient fusedLocationClient;
 
     // launch request with permission to access GPS  (fine location) and WIFI/CELLULAR based location (coarse locaiton)
-    private ActivityResultLauncher<String[]> requestPermissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), new ActivityResultCallback<Map<String, Boolean>>() {
+    private ActivityResultLauncher<String[]> requestPermissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(),
+            new ActivityResultCallback<Map<String, Boolean>>() {
         @Override
         public void onActivityResult(Map<String, Boolean> result) {
             if (result != null) {
@@ -36,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
                 boolean coarse = result.get(Manifest.permission.ACCESS_COARSE_LOCATION);
                 // this means permission has been approved
                 if (fine && coarse) {
-
                     // this method handles locations
                     getLocation();
 
@@ -74,7 +74,8 @@ public class MainActivity extends AppCompatActivity {
             // 1 GetLastLocation() - this gets the last time location was checked by any client
             // 2 getCurrentLocation - a fresh location
 
-            fusedLocationClient.getCurrentLocation(LocationRequest.PRIORITY_HIGH_ACCURACY,null).addOnSuccessListener(this, new OnSuccessListener<Location>() {
+            fusedLocationClient.getCurrentLocation(LocationRequest.PRIORITY_HIGH_ACCURACY,null)
+                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
                 @Override
                 public void onSuccess(Location location) {
                     // location hold the lat and long coordinates or last know location
