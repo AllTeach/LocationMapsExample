@@ -186,15 +186,14 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     public void startGeoCoding(View view)
     {
-
+        // getting GeoCoding - is Synchronous
+        // uses network - should run on a seperate thread
+        // recommended not to use on UI Thread
         Handler mHandler = new Handler();
-
-
         Runnable mRunnableOnSeparateThread = new Runnable() {
             @Override
             public void run () {
 
-                // do some long operation
                 Geocoder geocoder = new Geocoder(MapActivity.this);
                 List<Address> addresses = null;
                 try {
