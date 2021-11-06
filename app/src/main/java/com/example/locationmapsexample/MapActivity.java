@@ -11,6 +11,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
 import android.widget.TextView;
@@ -185,29 +186,51 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     public void startGeoCoding(View view)
     {
-        Geocoder geocoder = new Geocoder(MapActivity.this);
-        List<Address> addresses = null;
-        String str="";
-        try {
-            addresses = geocoder.getFromLocation(lat,lng,5);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
-        if(addresses !=null)
-        {
-            for (Address addr: addresses )
-            {
-                for(int i=0;i<= addr.getMaxAddressLineIndex();i++)
-                {
-                    str += "\n" + addr.getAddressLine(i);
+        Handler mHandler = new Handler();
 
+
+        Runnable mRunnableOnSeparateThread = new Runnable() {
+            @Override
+            public void run () {
+
+                // do some long operation
+                Geocoder geocoder = new Geocoder(MapActivity.this);
+                List<Address> addresses = null;
+                try {
+                    addresses = geocoder.getFromLocation(lat,lng,5);
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
 
 
+                List<Address> finalAddresses = addresses;
+                mHandler.post(new Runnable(){
+                    @Override
+                    public void run(){
+                        String str="";
+
+                        if(finalAddresses !=null)
+                        {
+                            for (Address addr: finalAddresses)
+                            {
+                                for(int i=0;i<= addr.getMaxAddressLineIndex();i++)
+                                {
+                                    str += "\n" + addr.getAddressLine(i);
+                                }
+                            }
+                        }
+                        tvAddress.setText(str);
+                    }
+                });
+
+
             }
-        }
-        tvAddress.setText(str);
+        };
+        new Thread(mRunnableOnSeparateThread).start();
+
+
+
 
 
 

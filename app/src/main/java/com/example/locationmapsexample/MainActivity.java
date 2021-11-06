@@ -20,6 +20,7 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 
 import java.util.Map;
 
@@ -39,8 +40,6 @@ public class MainActivity extends AppCompatActivity {
                 if (fine && coarse) {
                     // this method handles locations
                     getLocation();
-
-
                     Toast.makeText(MainActivity.this, "Location Permission approved", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(MainActivity.this, "App cannot work without location approval", Toast.LENGTH_SHORT).show();
@@ -59,7 +58,10 @@ public class MainActivity extends AppCompatActivity {
     });
 
     private void getLocation() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) !=
+                PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) !=
+                        PackageManager.PERMISSION_GRANTED) {
 
             String[] permissions = {Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION};
             requestPermissionLauncher.launch(permissions);
@@ -68,32 +70,27 @@ public class MainActivity extends AppCompatActivity {
         // this means we have location
         else
         {
-            fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-
             // a few options to get the location
             // 1 GetLastLocation() - this gets the last time location was checked by any client
             // 2 getCurrentLocation - a fresh location
-
             fusedLocationClient.getCurrentLocation(LocationRequest.PRIORITY_HIGH_ACCURACY,null)
                     .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                @Override
-                public void onSuccess(Location location) {
-                    // location hold the lat and long coordinates or last know location
-                    if(location!=null)
-                    {
-                        double lat = location.getLatitude();
-                        double lon = location.getLongitude();
-                        TextView textView = findViewById(R.id.tvMainLatLng);
+                        @Override
+                        public void onSuccess(Location location) {
+                            // location hold the lat and long coordinates or last know location
+                            if (location != null) {
+                                double lat = location.getLatitude();
+                                double lon = location.getLongitude();
+                                TextView textView = findViewById(R.id.tvMainLatLng);
 
-                        textView.setText("Last known Location is: Lat = " + lat + ", Lon = " + lon );
+                                textView.setText("Last known Location is: Lat = " + lat + ", Lon = " + lon);
 
 
-                    }
-                    else
-                        Toast.makeText(MainActivity.this, "Failed to get location ", Toast.LENGTH_SHORT).show();
+                            } else
+                                Toast.makeText(MainActivity.this, "Failed to get location ", Toast.LENGTH_SHORT).show();
 
-                }
-            });
+                        }
+                    });
 
         }
 
@@ -104,6 +101,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
     }
 
     @Override
