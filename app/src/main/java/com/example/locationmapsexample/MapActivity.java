@@ -24,6 +24,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
@@ -74,9 +75,15 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
-
-        // map is ready -> Add a marker att current location
+        // map is ready
         gMap = googleMap;
+
+        // set ZOOM enabled
+        UiSettings settings = gMap.getUiSettings();
+        settings.setZoomControlsEnabled(true);
+
+
+        // place marker where user has clicked on the map
         gMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(@NonNull LatLng latLng) {
@@ -227,12 +234,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
         };
         new Thread(mRunnableOnSeparateThread).start();
-
-
-
-
-
-
     }
 
 
@@ -241,8 +242,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         super.onStart();
         mMapView.onStart();
     }
-
-    @Override
+   @Override
     protected void onStop() {
         super.onStop();
         mMapView.onStop();
@@ -257,21 +257,16 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         super.onLowMemory();
         mMapView.onLowMemory();
     }
-
     @Override
     protected void onPause() {
         super.onPause();
         stopLocationUpdates();
         mMapView.onPause();
-
     }
-
     protected void onResume() {
         super.onResume();
-      //  checkPermissions();
       startLocationUpdates();
       mMapView.onResume();
-
     }
 
 }

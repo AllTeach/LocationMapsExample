@@ -57,7 +57,6 @@ public class MapOnlyActivity extends AppCompatActivity implements OnMapReadyCall
         // map is ready
 
         gMap = googleMap;
-        //gMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng)).icon(BitmapDescriptorFactory.fromResource(R.drawable.walk1)));
 
 
     }
@@ -78,7 +77,6 @@ public class MapOnlyActivity extends AppCompatActivity implements OnMapReadyCall
       //  gMap.setMyLocationEnabled(true);
         // set Map in the heart of the big apple NYC :-)
         gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng),10.0f));
-
 
     }
 
